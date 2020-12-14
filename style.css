@@ -1,0 +1,31 @@
+
+.fullContent{
+    background-color: gray;
+    margin: 50px 92px;
+    max-width: 900px;
+    display: flex;
+    align-items: center;
+}
+
+.imageFrame{
+    max-width: 100%;
+}
+
+.content{
+    position: absolute;
+    background-color: rgb(106, 255, 0);
+    display: flex;
+    align-items: center;
+    box-shadow: inset 0px 0px 50px rgba(0,0,0,0.5);
+}
+
+p{
+    margin: auto;
+    padding: 6%;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+}
