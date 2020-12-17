@@ -1,6 +1,6 @@
 
 .fullContent{
-    background-color: gray;
+    background-color: rgb(0, 0, 0);
     margin: 50px 92px;
     max-width: 900px;
     display: flex;
@@ -11,6 +11,12 @@
     max-width: 100%;
 }
 
+img {
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+}
+
 .content{
     position: absolute;
     background-color: rgb(106, 255, 0);
@@ -19,13 +25,15 @@
     box-shadow: inset 0px 0px 50px rgba(0,0,0,0.5);
 }
 
-p{
+.para{
     margin: auto;
-    padding: 6%;
+    padding: 25px;
 }
 
-img {
-    max-width: 100%;
-    max-height: 100%;
-    position: absolute;
-}
+.slideAnimation {
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+    transition: 1s;
+  }

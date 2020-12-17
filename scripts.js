@@ -1,16 +1,25 @@
-//content ready
+//DOM Stored in Variable
 let frameDOM =document.querySelector(".imageFrame"),
 contentDOM = document.querySelector(".content"),
 fullDOM = document.querySelector(".fullContent");
 
-var width=6,height=2,flag=1, total, left=100, topp=50,size=150;
-var screenWidth = 1100, currSWidth,maxWidth,element,styleObj,wid;
+//Variable declaration
+var width=6, height=2,flag=1, total, left=100, topp=50, size=150;
+var screenWidth = 1100, currSWidth, maxWidth, element, styleObj, contHeight;
 
+//Calculate current width of full content
 function currentWidth(){
-    var element = document.querySelector(".fullContent"),
-    styleObj = window.getComputedStyle(element),
-    wid = styleObj.getPropertyValue('width');
-    maxWidth = parseInt(wid);
+    var styleObj = window.getComputedStyle(fullDOM),
+    curr_width = styleObj.getPropertyValue('width');
+    maxWidth = parseInt(curr_width);
+}
+
+//Get current Height of content
+function contentHeight(){
+    var paraDOM = document.querySelector(".para"),
+    styleP = window.getComputedStyle(paraDOM);
+    curr_height = styleP.getPropertyValue('height');
+    contHeight = parseInt(curr_height);
 }
 
 //initial state
@@ -20,40 +29,41 @@ responsiveFull();
 //responsive design
 function responsiveFull(){
     function responsiveDo(x) {
-        if (x.matches && currSWidth!==screenWidth) { // If media query matches
-
-            width = 6+ (screenWidth-currSWidth)/100,height = 2+(screenWidth-currSWidth)/100;
+        if (x.matches && currSWidth!==screenWidth) { 
+            //For Small size screen
+            width = 6+ (screenWidth-currSWidth)/100,
             size = maxWidth/width;
+            height = Math.ceil((contHeight+50)/size);
             contentReady(width, height, size);
         }
         else if(currSWidth===screenWidth)
         {
-            //initial frame
+            //Default size for Desktop/Laptop
             width = 6;
-            height =2;
+            height = 2;
             size = maxWidth/width;
             contentReady(width, height, size);
         }
     }
 
-    //Screen size measurement
+    //Current window size
     for(var i=screenWidth;i>=0;i-=100)
     {
         var x = window.matchMedia("(max-width: " + i + "px)");
         currSWidth = i;
 
+        contentHeight();
         currentWidth();
         responsiveDo(x)
         x.addListener(responsiveDo)
     }
 }
 
+//Responsive while resizing browser
 $(window).on('resize', responsiveFull);
-
 
 //load image
 function contentReady(width, height, size){
-
     frameDOM.innerHTML = "";
     flag =1;
     total=2*(width+height);
@@ -89,10 +99,9 @@ function contentReady(width, height, size){
     fullDOM.style.height = (height+2)*size + "px";
 }
 
-
 //animation
 let adjacent, index;
-setInterval(animation, 3000)
+setInterval(animation, 1500);
 
 function animation(){
     //genarating random number
@@ -103,21 +112,22 @@ function animation(){
     var dataDOM= document.querySelector("[data-index=\"" + index + "\"]")
     var dataSDOM = document.querySelector("[data-index=\"" + (index+adjacent)%total + "\"]")
 
-    anim();
+    //Swaping image attribute
+    var temp = dataDOM.style.left;
+    dataDOM.style.left = dataSDOM.style.left;
+    dataSDOM.style.left = temp;
 
-//swaping image elements and ID
-    function anim(){
-        var temp = dataDOM.style.left;
-        dataDOM.style.left = dataSDOM.style.left;
-        dataSDOM.style.left = temp;
+    temp= dataDOM.style.top;
+    dataDOM.style.top = dataSDOM.style.top;
+    dataSDOM.style.top = temp;
 
-        temp= dataDOM.style.top;
-        dataDOM.style.top = dataSDOM.style.top;
-        dataSDOM.style.top = temp;
+    //swaping data index
+    temp = (index+adjacent)%total;
+    dataSDOM.setAttribute('data-index', '100');
+    dataDOM.setAttribute('data-index', temp);
+    document.querySelector("[data-index='100']").setAttribute('data-index', index);
 
-        temp = (index+adjacent)%total;
-        dataSDOM.setAttribute('data-index', '100');
-        dataDOM.setAttribute('data-index', temp);
-        document.querySelector("[data-index='100']").setAttribute('data-index', index);
-    }
+    //slide animation
+    dataDOM.classList.add('slideAnimation');
+    dataSDOM.classList.add('slideAnimation');
 }
