@@ -108,6 +108,10 @@ function animation(){
     adjacent = (Math.random()*10)<5? -1: 1;
     index = Math.floor(Math.random()*total);
 
+    //Corner case handling
+    if(adjacent === -1 && index === 0)
+       adjacent = total-1;
+ 
     //select two photo for swap
     var dataDOM= document.querySelector("[data-index=\"" + index + "\"]")
     var dataSDOM = document.querySelector("[data-index=\"" + (index+adjacent)%total + "\"]")
